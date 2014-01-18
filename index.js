@@ -44,30 +44,24 @@ function updateDevice(device) {
 	var app = device._app;
 	app.log.info("ipAddressPresence updating...");
 	var pingTimeoutTime = device.opts.pingTimeoutTime;
-	var foundPings = {};
+	var foundPings = ;
 	device.opts.ipAddresses.forEach(function(ipAddress) {
 		exec("ping -q -w " + pingTimeoutTime + " -c 1 " + ipAddress, function(error, stdout, stderr) {
-			app.log.info("ipAddressPresence pinged " + ipAddress + " -- error: " + error + " -- stderr: " + stderr + " -- stdout: " + stdout);
+			app.log.info("ipAddressPresence pinged " + ipAddress + " -- error: " + error + " -- stderr: " + stderr);
 			if (error || stderr) {
-				app.log.info("ipAddressPresence removing " + ipAddress + " from active ping table");
-				delete foundPings[ipAddress];
+				app.log.info("ipAddressPresence " + ipAddress + " not found");
 			}
 			else {
-				app.log.info("ipAddressPresence adding " + ipAddress + " from active ping table");
-				foundPings[ipAddress] = true;
+				app.log.info("ipAddressPresence adding " + ipAddress + " to active ping table");
+				foundPings.push(ipAddress);
 			};
-			var isEmpty = true;
-			for (var png in foundPings) {
-			// foundPings.forEach(function() {
-				isEmpty = false;  // if there is at least one found device on the network, we'll report a "1" condition. Otherwise "0"
-			};
-			if (isEmpty) {
-				app.log.info("ipAddressPresence emmitting 0");
-				device.emit('data', 0); // emit 0 if there are no found devices on the network
-			}
-			else {				
+			if (foundPings[0]) {  // we found at least one device on the network
 				app.log.info("ipAddressPresence emmitting 1");
-				device.emit('data', 1); // emit 1 if there is at least one found device on the network
+				device.emit('data', 1);
+			}
+			else {
+				app.log.info("ipAddressPresence emmitting 0");
+				device.emit('data', 0);
 			};
 		});
 	});
