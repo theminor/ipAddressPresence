@@ -44,7 +44,7 @@ function updateDevice(device) {
 	var app = device._app;
 	app.log.info("ipAddressPresence updating...");
 	var pingTimeoutTime = device.opts.pingTimeoutTime;
-	var foundPings = ;
+	var foundPings = [];
 	device.opts.ipAddresses.forEach(function(ipAddress) {
 		exec("ping -q -w " + pingTimeoutTime + " -c 1 " + ipAddress, function(error, stdout, stderr) {
 			app.log.info("ipAddressPresence pinged " + ipAddress + " -- error: " + error + " -- stderr: " + stderr);
