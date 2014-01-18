@@ -92,7 +92,7 @@ Driver.prototype.config = function(rpc, cb) {
 		this._app.log.info("ipAddressPresence main config window called");
 		return cb(null, {        // main config window
 			"contents":[
-				{ "type": "paragraph", "text": "The ipAddressPresence driver checks ip addresses or device names for presence on your network."},
+				{ "type": "paragraph", "text": "The ipAddressPresence driver checks ip addresses or device names for presence on your network. Be sure you get a confirmation when you hit Submit. You may need to hit it a couple of times..."},
 				{ "type": "input_field_text", "field_name": "update_Interval", "value": self.opts.updateInterval / 1000, "label": "Interval in seconds to ping devices", "placeholder": self.opts.updateInterval / 1000, "required": true},
 				{ "type": "input_field_text", "field_name": "ping_Timeout_Time", "value": self.opts.pingTimeoutTime, "label": "Time in seconds to wait for a ping response before timing out", "placeholder": self.opts.pingTimeoutTime, "required": true},
 				{ "type": "input_field_text", "field_name": "ip_Addresses", "value": ipAdrStg, "label": "Ip addresses/device names to ping. Separate each with the pipe character (\"|\")", "placeholder": ipAdrStg, "required": true},
@@ -126,7 +126,7 @@ Driver.prototype.config = function(rpc, cb) {
 		else {  // looks like the submitted values were valid, so update
 			self.opts.updateInterval = rpc.params.update_Interval * 1000; // we asked for it in seconds, need it in milliseconds
 			self.opts.pingTimeoutTime = rpc.params.ping_Timeout_Time;
-			self.opts.ipAddresses = ip_Addresses.split("|");
+			self.opts.ipAddresses = rpc.params.ip_Addresses.split("|");
 			self.save();
 			updateDevice(self.ipPrsDevice);
 			clearInterval(self.intervalID);
