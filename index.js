@@ -51,7 +51,7 @@ function updateDevice(device) {
 				foundPings[ipAddress] = true;
 			};
 			var isEmpty = true;
-			foundPings.foreach(function() {
+			foundPings.forEach(function() {
 				isEmpty = false;  // if there is at least one found device on the network, we'll report a "1" condition. Otherwise "0"
 			});
 			if (isEmpty) {
