@@ -75,11 +75,6 @@ function updateDevice(device) {
 
 module.exports = Driver;
 
-// config options:
-// updateInterval - number - time in milliseconds to check status of devices on the network
-// pingTimeoutTime - number - time in seconds to wait for a ping response before deciding the device is not there
-// ipAddresses - array - list of mac addresses to check
-
 Driver.prototype.config = function(rpc, cb) {
 	var self = this;
 	var ipAdrStg = "";
@@ -92,7 +87,6 @@ Driver.prototype.config = function(rpc, cb) {
 		else {
 			ipAdrStg += "|" + ipAddress;
 		};
-		ipAdrStg += ipAddress + "|"
 	});
 	if (!rpc) {
 		this._app.log.info("ipAddressPresence main config window called");
