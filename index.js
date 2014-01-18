@@ -28,6 +28,7 @@ function Device(app, opts) {
 	// *** tmp ***
 	opts.ipAddresses = ["192.168.1.138", "192.168.1.205"]
 	// ***********
+	updateDevice(self);
 	process.nextTick(function() {  // Update every "updateInterval" milliseconds
 		setInterval(function() {
 			updateDevice(self);
@@ -37,6 +38,7 @@ function Device(app, opts) {
 
 function updateDevice(device) {
 	var app = this._app;
+	app.log.info("ipAddressPresence updating...");
 	var pingTimeoutTime = device.opts.pingTimeoutTime || 5;
 	var foundPings = {};
 	device.opts.ipAddresses.forEach(function(ipAddress) {
