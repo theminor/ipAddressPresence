@@ -37,7 +37,7 @@ function Device(app, opts) {
 };
 
 function updateDevice(device) {
-	var app = devce._app;
+	var app = device._app;
 	app.log.info("ipAddressPresence updating...");
 	var pingTimeoutTime = device.opts.pingTimeoutTime || 5;
 	var foundPings = {};
