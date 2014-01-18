@@ -58,7 +58,7 @@ function updateDevice(device) {
 			else {				
 				device.emit('data', 1); // emit 1 if there is at least one found device on the network
 			};
-		};
+		});
 	});
 };
 
