@@ -45,9 +45,11 @@ function updateDevice(device) {
 		exec("ping -q -w " + pingTimeoutTime + " -c 1 " + ipAddress, function(error, stdout, stderr) {
 			app.log.info("ipAddressPresence pinged " + ipAddress + " -- error: " + error + " -- stderr: " + stderr + " -- stdout: " + stdout);
 			if (error || stderr) {
+				app.log.info("ipAddressPresence removing " + ipAddress + " from active ping table");
 				delete foundPings[ipAddress];
 			}
 			else {
+				app.log.info("ipAddressPresence adding " + ipAddress + " from active ping table");
 				foundPings[ipAddress] = true;
 			};
 			var isEmpty = true;
@@ -56,9 +58,11 @@ function updateDevice(device) {
 				isEmpty = false;  // if there is at least one found device on the network, we'll report a "1" condition. Otherwise "0"
 			};
 			if (isEmpty) {
+				app.log.info("ipAddressPresence emmitting 0");
 				device.emit('data', 0); // emit 0 if there are no found devices on the network
 			}
 			else {				
+				app.log.info("ipAddressPresence emmitting 1");
 				device.emit('data', 1); // emit 1 if there is at least one found device on the network
 			};
 		});
