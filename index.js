@@ -45,13 +45,14 @@ function updateDevice(device) {
 		exec("ping -q -w " + pingTimeoutTime + " -c 1 " + ipAddress, function(error, stdout, stderr) {
 			app.log.info("ipAddressPresence pinged " + ipAddress + " -- error: " + error + " -- stderr: " + stderr + " -- stdout: " + stdout);
 			if (error || stderr) {
-				foundPings[ipAddress] = undefined;
+				delete foundPings[ipAddress];
 			}
 			else {
 				foundPings[ipAddress] = true;
 			};
 			var isEmpty = true;
-			foundPings.forEach(function() {
+			for (var png in foundPings) {
+			// foundPings.forEach(function() {
 				isEmpty = false;  // if there is at least one found device on the network, we'll report a "1" condition. Otherwise "0"
 			});
 			if (isEmpty) {
