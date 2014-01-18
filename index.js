@@ -35,9 +35,7 @@ function Device(app, opts) {
 	this.name = "ipAddressPresence";
 	if (!opts.updateInterval) opts.updateInterval = 60000;
 	if (!opts.pingTimeoutTime) opts.pingTimeoutTime = 5;
-	// *** tmp ***
-	opts.ipAddresses = ["192.168.1.138", "192.168.1.205"]
-	// ***********
+	if (!opts.ipAddresses) opts.ipAddresses = [];
 };
 
 function updateDevice(device) {
