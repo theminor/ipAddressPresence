@@ -54,7 +54,7 @@ function updateDevice(device) {
 			for (var png in foundPings) {
 			// foundPings.forEach(function() {
 				isEmpty = false;  // if there is at least one found device on the network, we'll report a "1" condition. Otherwise "0"
-			});
+			};
 			if (isEmpty) {
 				device.emit('data', 0); // emit 0 if there are no found devices on the network
 			}
