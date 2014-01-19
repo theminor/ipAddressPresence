@@ -40,25 +40,25 @@ function Device(app, opts) {
 
 function updateDevice(device) {
 	var app = device._app;
-	app.log.info("ipAddressPresence updating...");
+	app.log.debug("ipAddressPresence updating...");
 	var pingTimeoutTime = device.opts.pingTimeoutTime;
 	var foundPings = [];
 	device.opts.ipAddresses.forEach(function(ipAddress) {
 		exec("ping -q -w " + pingTimeoutTime + " -c 1 " + ipAddress, function(error, stdout, stderr) {
-			app.log.info("ipAddressPresence pinged " + ipAddress + " -- error: " + error + " -- stderr: " + stderr);
+			app.log.debug("ipAddressPresence pinged " + ipAddress + " -- error: " + error + " -- stderr: " + stderr);
 			if (error || stderr) {
-				app.log.info("ipAddressPresence " + ipAddress + " not found");
+				app.log.debug("ipAddressPresence " + ipAddress + " not found");
 			}
 			else {
-				app.log.info("ipAddressPresence adding " + ipAddress + " to active ping table");
+				app.log.debug("ipAddressPresence adding " + ipAddress + " to active ping table");
 				foundPings.push(ipAddress);
 			};
 			if (foundPings[0]) {  // we found at least one device on the network
-				app.log.info("ipAddressPresence emmitting 1");
+				app.log.debug("ipAddressPresence emmitting 1");
 				device.emit('data', 1);
 			}
 			else {
-				app.log.info("ipAddressPresence emmitting 0");
+				app.log.debug("ipAddressPresence emmitting 0");
 				device.emit('data', 0);
 			};
 		});
@@ -81,7 +81,7 @@ Driver.prototype.config = function(rpc, cb) {
 		};
 	});
 	if (!rpc) {
-		this._app.log.info("ipAddressPresence main config window called");
+		this._app.log.debug("ipAddressPresence main config window called");
 		return cb(null, {        // main config window
 			"contents":[
 				{ "type": "paragraph", "text": "The ipAddressPresence driver checks ip addresses or device names for presence on your network. Be sure you get a confirmation when you hit Submit. You may need to hit it a couple of times..."},
@@ -95,7 +95,7 @@ Driver.prototype.config = function(rpc, cb) {
 		});
 	}
 	else if (rpc.method == "submt") {
-		this._app.log.info("ipAddressPresence config window submitted. Checking for errors..");
+		this._app.log.debug("ipAddressPresence config window submitted. Checking for errors..");
 		var intRegex = /^\d+$/; // corresponds to a positive integer
 		if (!(intRegex.test(rpc.params.update_Interval))) {  // must be a positive integer
 			cb(null, {
@@ -136,6 +136,6 @@ Driver.prototype.config = function(rpc, cb) {
 		};
 	}
 	else {
-			this._app.log.info("ipAddressPresence - Unknown rpc method was called!");
+			this._app.log.warn("ipAddressPresence - Unknown rpc method was called!");
 	};
 };
